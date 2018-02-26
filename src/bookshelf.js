@@ -1,5 +1,4 @@
-import React, {Component, props} from 'react';
-import ReactDOM from 'react-dom'
+import React, {Component,} from 'react';
 import {Link} from 'react-router-dom'
 import Books from './books'
 
@@ -18,8 +17,8 @@ class BookShelf extends Component {
             <div className="bookshelf-books">
               <ol className="books-grid">
                   {this.props.Shelfs.CurrentlyReading.map(book=>
-                    <li>
-                      <Books book={book}/>
+                    <li key={book.id}>
+                      <Books book={book} onChange={this.props.onChangeShelf}/>
                     </li>
                   )}
               </ol>
@@ -30,8 +29,8 @@ class BookShelf extends Component {
             <div className="bookshelf-books">
               <ol className="books-grid">
                 {this.props.Shelfs.WantToRead.map(book=>
-                  <li>
-                    <Books book={book}/>
+                  <li key={book.id}>
+                    <Books book={book} onChange={this.props.onChangeShelf}/>
                   </li>
                 )}
               </ol>
@@ -42,8 +41,8 @@ class BookShelf extends Component {
             <div className="bookshelf-books">
               <ol className="books-grid">
                 {this.props.Shelfs.Read.map(book=>
-                  <li>
-                    <Books book={book}/>
+                  <li key={book.id}>
+                    <Books book={book} onChange={this.props.onChangeShelf}/>
                   </li>
                 )}
               </ol>
