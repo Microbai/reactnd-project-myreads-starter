@@ -31,7 +31,6 @@ class Books extends Component {
                       </div>
                     </div>
                     <div className="book-title">{this.props.book.title}</div>
-                    {this.props.book.shelf}
                     <div className="book-authors">{(this.props.book.authors!==undefined && this.props.book.authors.length>0)? this.props.book.authors.map((author, index)=> author + " "): ""}</div>
 
                   </div>
