@@ -30,7 +30,11 @@ class BooksApp extends React.Component {
 
   SearchQuery = (query) => {
     BooksAPI.search(query).then(books => {
-      this.setState(state => ({searchBooks: books}))
+      if (Array.isArray(books)) {
+        this.setState(state => ({searchBooks: books}))
+      } else {
+        this.setState({searchBooks: []});
+      }
     })
   }
   ChangeShelf = (event, book) => {
@@ -50,12 +54,10 @@ class BooksApp extends React.Component {
   };
   render() {
     return (<div className="app">
-      <Route path='/search' render={() => (<SearchPage  onSearch={(query) => {this.SearchQuery(query)}}
-        SearchBooks={this.state.searchBooks}
-        onChangeShelf={this.ChangeShelf}
-        shelfBooks={this.state.books}
-        />)}/>
-      <Route exact path='/' render={() => (<BookShelf Shelfs={this.state.shelfs} onChangeShelf={this.ChangeShelf}/>)}/>
+      <Route path='/search' render={() => (<SearchPage onSearch={(query) => {
+            this.SearchQuery(query)
+          }} SearchBooks={this.state.searchBooks} onChangeShelf={this.ChangeShelf} shelfBooks={this.state.books}/>)}/>
+      <Route exact="exact" path='/' render={() => (<BookShelf Shelfs={this.state.shelfs} onChangeShelf={this.ChangeShelf}/>)}/>
     </div>)
   }
 }
