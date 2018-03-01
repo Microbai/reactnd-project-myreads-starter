@@ -6,9 +6,11 @@ import Books from './books'
 class searchPage extends React.Component {
   static propTypes = {
     SearchBooks: PropTypes.array.isRequired,
+    shelfBooks: PropTypes.array.isRequired
   }
   state = {
-    query: ''
+    classedBook: [],
+    query: '',
   }
 
   updateQuery = (query) => {
@@ -21,16 +23,29 @@ class searchPage extends React.Component {
   }
 
   render() {
-    const {SearchBooks} = this.props
+    const {SearchBooks,shelfBooks} = this.props
     const {query} = this.state
+
+    const classedBook = SearchBooks.map((searchBook) => {
+       let book = shelfBooks.filter((book) => (book.id === searchBook.id))
+
+      if (book.length !== 0/* searchBook 存在于传进来的 this.props.shelfBooks （已分类的书） */) {
+        searchBook.shelf = book[0].shelf
+        // 从 this.props.shelfBooks 里找出和搜索的书一样的书: A
+        // 把 searchBook.shelf 值设置为: A.shelf
+
+      } else {
+        // 否则就把 searchBook.shelf 值设置为 none
+        searchBook.shelf = 'none'
+      }
+      return searchBook
+    })
     let showingSearch = ''
-    if (SearchBooks.length > 0) {
-      showingSearch=SearchBooks.map((book, index) => {
-          return (
-              <li key={index}>
-                  <Books book={book} onChange={this.props.onChangeShelf}/>
-              </li>
-          );
+    if (classedBook.length > 0) {
+      showingSearch = classedBook.map((book, index) => {
+        return (<li key={index}>
+          <Books book={book} onChange={this.props.onChangeShelf}/>
+        </li>);
       });
     }
     return (<div className="search-books">
